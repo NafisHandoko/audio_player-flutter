@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:audio_player/global_styles.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'dart:async';
 
 class Player extends StatefulWidget {
   const Player({Key? key}) : super(key: key);
@@ -14,12 +15,32 @@ class _PlayerState extends State<Player> {
   bool isPlaying = false;
   AudioPlayer player = new AudioPlayer();
   late AudioCache cache;
+  // late Duration _duration;
+  // late Duration _position;
+  Duration _duration = new Duration();
+  Duration _position = new Duration();
+
+  late StreamSubscription _durationSubscription;
+  late StreamSubscription _positionSubscription;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    cache = new AudioCache(fixedPlayer: player);
+    initPlayer();
+  }
+
+  void initPlayer() async {
+    cache = AudioCache(fixedPlayer: player);
+
+    _durationSubscription = player.onDurationChanged.listen((duration) {
+      setState(() => _duration = duration);
+    });
+
+    _positionSubscription =
+        player.onAudioPositionChanged.listen((p) => setState(() {
+              _position = p;
+            }));
   }
 
   @override
@@ -65,13 +86,11 @@ class _PlayerState extends State<Player> {
                 )),
           ),
           Slider(
-            min: 0.0,
-            max: 100.0,
-            value: sliderValue,
+            min: 0,
+            max: _duration.inSeconds.toDouble(),
+            value: _position.inSeconds.toDouble(),
             onChanged: (value) {
-              setState(() {
-                sliderValue = value;
-              });
+              player.seek(Duration(milliseconds: value.toInt()));
             },
           )
         ],
