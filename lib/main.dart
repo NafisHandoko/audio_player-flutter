@@ -1,6 +1,9 @@
 import 'package:audio_player/components/navbar.dart';
 import 'package:audio_player/components/title_appbar.dart';
+import 'package:audio_player/screens/player.dart';
+import 'package:audio_player/screens/story.dart';
 import 'package:flutter/material.dart';
+import 'package:audio_player/global_styles.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,15 +34,58 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MainApp extends StatelessWidget {
+class MainApp extends StatefulWidget {
   const MainApp({Key? key}) : super(key: key);
+
+  @override
+  State<MainApp> createState() => _MainAppState();
+}
+
+class _MainAppState extends State<MainApp> {
+  bool isInPlayer = true;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: color1,
       appBar: const PreferredSize(
           preferredSize: Size.fromHeight(100), child: TitleAppBar()),
-      bottomNavigationBar: NavBar(),
+      body: isInPlayer ? Player() : Story(),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(color: color2, boxShadow: [boxshadow1]),
+        padding: const EdgeInsets.only(top: 10, bottom: 10),
+        // color: Colors.blue,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            IconButton(
+              alignment: Alignment.center,
+              icon: const Icon(
+                Icons.audiotrack,
+              ),
+              color: isInPlayer ? Colors.white : Colors.white.withOpacity(0.4),
+              onPressed: () {
+                setState(() {
+                  isInPlayer = true;
+                });
+              },
+            ),
+            IconButton(
+              alignment: Alignment.center,
+              icon: const Icon(
+                Icons.article,
+              ),
+              color: isInPlayer ? Colors.white.withOpacity(0.4) : Colors.white,
+              onPressed: () {
+                setState(() {
+                  isInPlayer = false;
+                });
+              },
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
