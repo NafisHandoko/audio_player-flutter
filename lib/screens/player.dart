@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:audio_player/global_styles.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class Player extends StatefulWidget {
   const Player({Key? key}) : super(key: key);
@@ -10,6 +11,17 @@ class Player extends StatefulWidget {
 
 class _PlayerState extends State<Player> {
   double sliderValue = 0;
+  bool isPlaying = false;
+  AudioPlayer player = new AudioPlayer();
+  late AudioCache cache;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    cache = new AudioCache(fixedPlayer: player);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -34,9 +46,21 @@ class _PlayerState extends State<Player> {
                 shape: BoxShape.circle, color: color2, boxShadow: [boxshadow1]),
             child: IconButton(
                 iconSize: 45,
-                onPressed: () {},
+                onPressed: () async {
+                  if (isPlaying) {
+                    setState(() {
+                      isPlaying = false;
+                    });
+                    player.pause();
+                  } else {
+                    setState(() {
+                      isPlaying = true;
+                    });
+                    cache.play('tes.mp3');
+                  }
+                },
                 icon: Icon(
-                  Icons.play_arrow_rounded,
+                  isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
                   color: Colors.white,
                 )),
           ),
