@@ -22,6 +22,7 @@ class _PlayerState extends State<Player> {
 
   late StreamSubscription _durationSubscription;
   late StreamSubscription _positionSubscription;
+  late StreamSubscription _playerCompleteSubscription;
 
   @override
   void initState() {
@@ -30,7 +31,7 @@ class _PlayerState extends State<Player> {
     initPlayer();
   }
 
-  void initPlayer() async {
+  void initPlayer() {
     cache = AudioCache(fixedPlayer: player);
 
     _durationSubscription = player.onDurationChanged.listen((duration) {
@@ -41,6 +42,14 @@ class _PlayerState extends State<Player> {
         player.onAudioPositionChanged.listen((p) => setState(() {
               _position = p;
             }));
+
+    _playerCompleteSubscription = player.onPlayerCompletion.listen((event) {
+      player.stop();
+      setState(() {
+        isPlaying = false;
+        _position = _duration;
+      });
+    });
   }
 
   @override
