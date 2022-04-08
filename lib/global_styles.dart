@@ -7,4 +7,9 @@ BoxShadow boxshadow1 = BoxShadow(
     offset: const Offset(0, 0),
     blurRadius: 50,
     spreadRadius: 0,
-    color: color2.withOpacity(0.5));
+    color: color2.withOpacity(0.8));
+BoxShadow boxshadow2 = BoxShadow(
+    offset: const Offset(0, 0),
+    blurRadius: 50,
+    spreadRadius: 0,
+    color: Colors.white.withOpacity(0.4));

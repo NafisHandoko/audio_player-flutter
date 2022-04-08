@@ -1,71 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:audio_player/global_styles.dart';
-import 'package:audioplayers/audioplayers.dart';
-import 'dart:async';
+// import 'package:audioplayers/audioplayers.dart';
 
 class Player extends StatefulWidget {
-  const Player({Key? key}) : super(key: key);
+  final isPlaying, player, cache, duration, position, play, pause;
+
+  const Player(
+      {Key? key,
+      this.isPlaying,
+      this.player,
+      this.cache,
+      this.duration,
+      this.position,
+      this.play,
+      this.pause})
+      : super(key: key);
 
   @override
   State<Player> createState() => _PlayerState();
 }
 
 class _PlayerState extends State<Player> {
-  double sliderValue = 0;
-  bool isPlaying = false;
-  // AudioPlayer player = new AudioPlayer();
-  late AudioPlayer player;
-  late AudioCache cache;
-  // Duration _duration = new Duration();
-  // Duration _position = new Duration();
-  Duration duration = Duration();
-  Duration position = Duration();
-
-  // late StreamSubscription _durationSubscription;
-  // late StreamSubscription _positionSubscription;
-  // late StreamSubscription _playerCompleteSubscription;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    initPlayer();
-  }
-
-  void initPlayer() {
-    player = AudioPlayer();
-    cache = AudioCache(fixedPlayer: player);
-    cache.load('Rekaman.m4a');
-
-    player.onAudioPositionChanged.listen((p) {
-      setState(() {
-        position = p;
-      });
-      player.onDurationChanged.listen((d) {
-        setState(() {
-          duration = d;
-        });
-      });
-    });
-
-    // _durationSubscription = player.onDurationChanged.listen((duration) {
-    //   setState(() => _duration = duration);
-    // });
-
-    // _positionSubscription =
-    //     player.onAudioPositionChanged.listen((p) => setState(() {
-    //           _position = p;
-    //         }));
-
-    // _playerCompleteSubscription = player.onPlayerCompletion.listen((event) {
-    //   player.stop();
-    //   setState(() {
-    //     isPlaying = false;
-    //     _position = _duration;
-    //   });
-    // });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -81,42 +36,35 @@ class _PlayerState extends State<Player> {
                 boxShadow: [boxshadow1],
                 image: DecorationImage(
                     image: NetworkImage(
-                        'https://images.unsplash.com/photo-1501472312651-726afe119ff1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80'),
+                        'https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Batu_Malin_Kundang%2C_Air_Manis_Beach%2C_Padang_2017-02-14_02.jpg/1200px-Batu_Malin_Kundang%2C_Air_Manis_Beach%2C_Padang_2017-02-14_02.jpg'),
                     fit: BoxFit.cover)),
           ),
           Container(
             padding: const EdgeInsets.all(7),
             decoration: BoxDecoration(
-                shape: BoxShape.circle, color: color2, boxShadow: [boxshadow1]),
+                shape: BoxShape.circle, color: color2, boxShadow: [boxshadow2]),
             child: IconButton(
                 iconSize: 45,
-                onPressed: () async {
-                  if (isPlaying) {
-                    setState(() {
-                      isPlaying = false;
-                    });
-                    player.pause();
+                onPressed: () {
+                  if (widget.isPlaying) {
+                    widget.pause();
                   } else {
-                    setState(() {
-                      isPlaying = true;
-                    });
-                    cache.play('Rekaman.m4a');
+                    widget.play();
                   }
                 },
                 icon: Icon(
-                  isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
+                  widget.isPlaying
+                      ? Icons.pause_rounded
+                      : Icons.play_arrow_rounded,
                   color: Colors.white,
                 )),
           ),
           Slider(
             min: 0,
-            max: duration.inSeconds.toDouble(),
-            value: position.inSeconds.toDouble(),
+            max: widget.duration.inSeconds.toDouble(),
+            value: widget.position.inSeconds.toDouble(),
             onChanged: (value) {
-              setState(() {
-                player.seek(Duration(seconds: value.toInt()));
-                // value = value;
-              });
+              widget.player.seek(Duration(seconds: value.toInt()));
             },
           )
         ],

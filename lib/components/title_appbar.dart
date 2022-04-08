@@ -14,7 +14,7 @@ class TitleAppBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Audio Player',
+              'Malin Kundang',
               style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.w700,
