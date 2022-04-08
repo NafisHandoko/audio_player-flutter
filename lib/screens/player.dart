@@ -13,16 +13,17 @@ class Player extends StatefulWidget {
 class _PlayerState extends State<Player> {
   double sliderValue = 0;
   bool isPlaying = false;
-  AudioPlayer player = new AudioPlayer();
+  // AudioPlayer player = new AudioPlayer();
+  late AudioPlayer player;
   late AudioCache cache;
-  // late Duration _duration;
-  // late Duration _position;
-  Duration _duration = new Duration();
-  Duration _position = new Duration();
+  // Duration _duration = new Duration();
+  // Duration _position = new Duration();
+  Duration duration = Duration();
+  Duration position = Duration();
 
-  late StreamSubscription _durationSubscription;
-  late StreamSubscription _positionSubscription;
-  late StreamSubscription _playerCompleteSubscription;
+  // late StreamSubscription _durationSubscription;
+  // late StreamSubscription _positionSubscription;
+  // late StreamSubscription _playerCompleteSubscription;
 
   @override
   void initState() {
@@ -32,24 +33,37 @@ class _PlayerState extends State<Player> {
   }
 
   void initPlayer() {
+    player = AudioPlayer();
     cache = AudioCache(fixedPlayer: player);
+    cache.load('tes.mp3');
 
-    _durationSubscription = player.onDurationChanged.listen((duration) {
-      setState(() => _duration = duration);
-    });
-
-    _positionSubscription =
-        player.onAudioPositionChanged.listen((p) => setState(() {
-              _position = p;
-            }));
-
-    _playerCompleteSubscription = player.onPlayerCompletion.listen((event) {
-      player.stop();
+    player.onAudioPositionChanged.listen((p) {
       setState(() {
-        isPlaying = false;
-        _position = _duration;
+        position = p;
+      });
+      player.onDurationChanged.listen((d) {
+        setState(() {
+          duration = d;
+        });
       });
     });
+
+    // _durationSubscription = player.onDurationChanged.listen((duration) {
+    //   setState(() => _duration = duration);
+    // });
+
+    // _positionSubscription =
+    //     player.onAudioPositionChanged.listen((p) => setState(() {
+    //           _position = p;
+    //         }));
+
+    // _playerCompleteSubscription = player.onPlayerCompletion.listen((event) {
+    //   player.stop();
+    //   setState(() {
+    //     isPlaying = false;
+    //     _position = _duration;
+    //   });
+    // });
   }
 
   @override
@@ -96,10 +110,13 @@ class _PlayerState extends State<Player> {
           ),
           Slider(
             min: 0,
-            max: _duration.inSeconds.toDouble(),
-            value: _position.inSeconds.toDouble(),
+            max: duration.inSeconds.toDouble(),
+            value: position.inSeconds.toDouble(),
             onChanged: (value) {
-              player.seek(Duration(milliseconds: value.toInt()));
+              setState(() {
+                player.seek(Duration(seconds: value.toInt()));
+                // value = value;
+              });
             },
           )
         ],
