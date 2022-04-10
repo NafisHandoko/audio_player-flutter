@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:audio_player/global_styles.dart';
-// import 'package:audioplayers/audioplayers.dart';
 
 class Player extends StatefulWidget {
   final isPlaying, player, cache, duration, position, play, pause, stop;

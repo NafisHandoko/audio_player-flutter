@@ -1,4 +1,3 @@
-import 'package:audio_player/components/navbar.dart';
 import 'package:audio_player/components/title_appbar.dart';
 import 'package:audio_player/screens/player.dart';
 import 'package:audio_player/screens/story.dart';
@@ -63,23 +62,6 @@ class _MainAppState extends State<MainApp> {
         });
       });
     });
-
-    // _durationSubscription = player.onDurationChanged.listen((duration) {
-    //   setState(() => _duration = duration);
-    // });
-
-    // _positionSubscription =
-    //     player.onAudioPositionChanged.listen((p) => setState(() {
-    //           _position = p;
-    //         }));
-
-    // _playerCompleteSubscription = player.onPlayerCompletion.listen((event) {
-    //   player.stop();
-    //   setState(() {
-    //     isPlaying = false;
-    //     _position = _duration;
-    //   });
-    // });
   }
 
   play() {
