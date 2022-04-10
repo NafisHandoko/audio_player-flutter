@@ -3,7 +3,7 @@ import 'package:audio_player/global_styles.dart';
 // import 'package:audioplayers/audioplayers.dart';
 
 class Player extends StatefulWidget {
-  final isPlaying, player, cache, duration, position, play, pause;
+  final isPlaying, player, cache, duration, position, play, pause, stop;
 
   const Player(
       {Key? key,
@@ -13,7 +13,8 @@ class Player extends StatefulWidget {
       this.duration,
       this.position,
       this.play,
-      this.pause})
+      this.pause,
+      this.stop})
       : super(key: key);
 
   @override
@@ -21,6 +22,8 @@ class Player extends StatefulWidget {
 }
 
 class _PlayerState extends State<Player> {
+  double playbackRate = 1.0;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -39,25 +42,161 @@ class _PlayerState extends State<Player> {
                         'https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Batu_Malin_Kundang%2C_Air_Manis_Beach%2C_Padang_2017-02-14_02.jpg/1200px-Batu_Malin_Kundang%2C_Air_Manis_Beach%2C_Padang_2017-02-14_02.jpg'),
                     fit: BoxFit.cover)),
           ),
-          Container(
-            padding: const EdgeInsets.all(7),
-            decoration: BoxDecoration(
-                shape: BoxShape.circle, color: color2, boxShadow: [boxshadow2]),
-            child: IconButton(
-                iconSize: 45,
-                onPressed: () {
-                  if (widget.isPlaying) {
-                    widget.pause();
-                  } else {
-                    widget.play();
-                  }
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(7),
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: color2,
+                    boxShadow: [boxshadow2]),
+                child: IconButton(
+                    iconSize: 45,
+                    onPressed: () {
+                      if (widget.isPlaying) {
+                        widget.pause();
+                      } else {
+                        widget.play();
+                      }
+                    },
+                    icon: Icon(
+                      widget.isPlaying
+                          ? Icons.pause_rounded
+                          : Icons.play_arrow_rounded,
+                      color: Colors.white,
+                    )),
+              ),
+              Container(
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: colorStop,
+                    boxShadow: [boxshadow2]),
+                child: IconButton(
+                    iconSize: 30,
+                    onPressed: () {
+                      widget.stop();
+                    },
+                    icon: Icon(
+                      Icons.stop_rounded,
+                      color: Colors.white,
+                    )),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              InkWell(
+                onTap: () {
+                  widget.player.setPlaybackRate(0.5);
+                  setState(() {
+                    playbackRate = 0.5;
+                  });
                 },
-                icon: Icon(
-                  widget.isPlaying
-                      ? Icons.pause_rounded
-                      : Icons.play_arrow_rounded,
-                  color: Colors.white,
-                )),
+                child: Container(
+                  width: 60,
+                  height: 35,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: (playbackRate == 0.5) ? Colors.white : color1,
+                    border: Border.all(
+                        color: (playbackRate == 0.5) ? Colors.white : color2,
+                        width: 2),
+                    borderRadius: borderRadius1,
+                  ),
+                  child: Text(
+                    '0.5x',
+                    style: TextStyle(
+                        color: color2,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  widget.player.setPlaybackRate(1.0);
+                  setState(() {
+                    playbackRate = 1.0;
+                  });
+                },
+                child: Container(
+                  width: 60,
+                  height: 35,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: (playbackRate == 1.0) ? Colors.white : color1,
+                    border: Border.all(
+                        color: (playbackRate == 1.0) ? Colors.white : color2,
+                        width: 2),
+                    borderRadius: borderRadius1,
+                  ),
+                  child: Text(
+                    '1x',
+                    style: TextStyle(
+                        color: color2,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  widget.player.setPlaybackRate(2.0);
+                  setState(() {
+                    playbackRate = 2.0;
+                  });
+                },
+                child: Container(
+                  width: 60,
+                  height: 35,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: (playbackRate == 2.0) ? Colors.white : color1,
+                    border: Border.all(
+                        color: (playbackRate == 2.0) ? Colors.white : color2,
+                        width: 2),
+                    borderRadius: borderRadius1,
+                  ),
+                  child: Text(
+                    '2x',
+                    style: TextStyle(
+                        color: color2,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  widget.player.setPlaybackRate(3.0);
+                  setState(() {
+                    playbackRate = 3.0;
+                  });
+                },
+                child: Container(
+                  width: 60,
+                  height: 35,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: (playbackRate == 3.0) ? Colors.white : color1,
+                    border: Border.all(
+                        color: (playbackRate == 3.0) ? Colors.white : color2,
+                        width: 2),
+                    borderRadius: borderRadius1,
+                  ),
+                  child: Text(
+                    '3x',
+                    style: TextStyle(
+                        color: color2,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ),
+              ),
+            ],
           ),
           Slider(
             min: 0,

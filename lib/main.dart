@@ -96,6 +96,14 @@ class _MainAppState extends State<MainApp> {
     player.pause();
   }
 
+  stop() {
+    setState(() {
+      isPlaying = false;
+    });
+    player.stop();
+    player.seek(Duration(seconds: 0));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -111,6 +119,7 @@ class _MainAppState extends State<MainApp> {
               position: position,
               play: play,
               pause: pause,
+              stop: stop,
             )
           : Story(),
       bottomNavigationBar: Container(
