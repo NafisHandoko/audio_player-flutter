@@ -39,6 +39,7 @@ class _MainAppState extends State<MainApp> {
   late AudioCache cache;
   Duration duration = Duration();
   Duration position = Duration();
+  double playbackRate = 1.0;
 
   @override
   void initState() {
@@ -86,6 +87,12 @@ class _MainAppState extends State<MainApp> {
     player.seek(Duration(seconds: 0));
   }
 
+  setPlaybackRate(double val) {
+    setState(() {
+      playbackRate = val;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,6 +109,8 @@ class _MainAppState extends State<MainApp> {
               play: play,
               pause: pause,
               stop: stop,
+              setPlaybackRate: setPlaybackRate,
+              playbackRate: playbackRate,
             )
           : Story(),
       bottomNavigationBar: Container(

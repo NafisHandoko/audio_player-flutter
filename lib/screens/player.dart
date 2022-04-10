@@ -2,7 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:audio_player/global_styles.dart';
 
 class Player extends StatefulWidget {
-  final isPlaying, player, cache, duration, position, play, pause, stop;
+  final isPlaying,
+      player,
+      cache,
+      duration,
+      position,
+      play,
+      pause,
+      stop,
+      setPlaybackRate,
+      playbackRate;
 
   const Player(
       {Key? key,
@@ -13,7 +22,9 @@ class Player extends StatefulWidget {
       this.position,
       this.play,
       this.pause,
-      this.stop})
+      this.stop,
+      this.setPlaybackRate,
+      this.playbackRate})
       : super(key: key);
 
   @override
@@ -21,8 +32,6 @@ class Player extends StatefulWidget {
 }
 
 class _PlayerState extends State<Player> {
-  double playbackRate = 1.0;
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -91,17 +100,19 @@ class _PlayerState extends State<Player> {
                 onTap: () {
                   widget.player.setPlaybackRate(0.5);
                   setState(() {
-                    playbackRate = 0.5;
+                    widget.setPlaybackRate(0.5);
                   });
                 },
                 child: Container(
-                  width: 60,
+                  width: 50,
                   height: 35,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    color: (playbackRate == 0.5) ? Colors.white : color1,
+                    color: (widget.playbackRate == 0.5) ? Colors.white : color1,
                     border: Border.all(
-                        color: (playbackRate == 0.5) ? Colors.white : color2,
+                        color: (widget.playbackRate == 0.5)
+                            ? Colors.white
+                            : color2,
                         width: 2),
                     borderRadius: borderRadius1,
                   ),
@@ -118,17 +129,19 @@ class _PlayerState extends State<Player> {
                 onTap: () {
                   widget.player.setPlaybackRate(1.0);
                   setState(() {
-                    playbackRate = 1.0;
+                    widget.setPlaybackRate(1.0);
                   });
                 },
                 child: Container(
-                  width: 60,
+                  width: 50,
                   height: 35,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    color: (playbackRate == 1.0) ? Colors.white : color1,
+                    color: (widget.playbackRate == 1.0) ? Colors.white : color1,
                     border: Border.all(
-                        color: (playbackRate == 1.0) ? Colors.white : color2,
+                        color: (widget.playbackRate == 1.0)
+                            ? Colors.white
+                            : color2,
                         width: 2),
                     borderRadius: borderRadius1,
                   ),
@@ -145,17 +158,19 @@ class _PlayerState extends State<Player> {
                 onTap: () {
                   widget.player.setPlaybackRate(2.0);
                   setState(() {
-                    playbackRate = 2.0;
+                    widget.setPlaybackRate(2.0);
                   });
                 },
                 child: Container(
-                  width: 60,
+                  width: 50,
                   height: 35,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    color: (playbackRate == 2.0) ? Colors.white : color1,
+                    color: (widget.playbackRate == 2.0) ? Colors.white : color1,
                     border: Border.all(
-                        color: (playbackRate == 2.0) ? Colors.white : color2,
+                        color: (widget.playbackRate == 2.0)
+                            ? Colors.white
+                            : color2,
                         width: 2),
                     borderRadius: borderRadius1,
                   ),
@@ -172,22 +187,53 @@ class _PlayerState extends State<Player> {
                 onTap: () {
                   widget.player.setPlaybackRate(3.0);
                   setState(() {
-                    playbackRate = 3.0;
+                    widget.setPlaybackRate(3.0);
                   });
                 },
                 child: Container(
-                  width: 60,
+                  width: 50,
                   height: 35,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    color: (playbackRate == 3.0) ? Colors.white : color1,
+                    color: (widget.playbackRate == 3.0) ? Colors.white : color1,
                     border: Border.all(
-                        color: (playbackRate == 3.0) ? Colors.white : color2,
+                        color: (widget.playbackRate == 3.0)
+                            ? Colors.white
+                            : color2,
                         width: 2),
                     borderRadius: borderRadius1,
                   ),
                   child: Text(
                     '3x',
+                    style: TextStyle(
+                        color: color2,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  widget.player.setPlaybackRate(4.0);
+                  setState(() {
+                    widget.setPlaybackRate(4.0);
+                  });
+                },
+                child: Container(
+                  width: 50,
+                  height: 35,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: (widget.playbackRate == 4.0) ? Colors.white : color1,
+                    border: Border.all(
+                        color: (widget.playbackRate == 4.0)
+                            ? Colors.white
+                            : color2,
+                        width: 2),
+                    borderRadius: borderRadius1,
+                  ),
+                  child: Text(
+                    '4x',
                     style: TextStyle(
                         color: color2,
                         fontSize: 18,
